@@ -1,0 +1,500 @@
+[
+  {
+    "case_title": "Case 1: Fully Authentic Aerospace Turbine Blade",
+    "category": "AUTHENTIC",
+    "report": {
+      "validation_id": "VAL-95254562CF",
+      "shipment_id": "SHIP-2026-AERO-01",
+      "serial_number": "SN-9821-X",
+      "authenticity_score": 89.8,
+      "risk_level": "AUTHENTIC",
+      "is_authentic": true,
+      "decision_summary": "Shipment verified authentic. Cryptographic signatures match PKI records, custody chain is continuous without temporal or physical anomalies.",
+      "conflicting_evidence": [],
+      "conflict_count": 0,
+      "rule_score": 100.0,
+      "ml_assessment": {
+        "anomaly_score": 0.3586,
+        "is_anomaly": false,
+        "fraud_probability": 0.2,
+        "top_risk_features": [],
+        "confidence": 0.887
+      },
+      "traceability_graph": {
+        "nodes": [
+          {
+            "node_id": "NODE-0-FACTORY",
+            "label": "Manufacturer Genesis",
+            "source": "Factory Assembly ERP",
+            "timestamp": "2026-06-15T08:30:00Z",
+            "status": "VERIFIED",
+            "details": {
+              "manufacturer": "MFG-AERO-GLOBAL-01",
+              "batch": "BATCH-2026-A12",
+              "registered": true
+            },
+            "conflicts": []
+          },
+          {
+            "node_id": "NODE-1-CP-BER-01",
+            "label": "Berlin Logistics Gateway",
+            "source": "Carrier GPS Telemetry",
+            "timestamp": "2026-06-16T12:00:00Z",
+            "status": "VERIFIED",
+            "details": {
+              "handler_id": "OPERATOR-DE-44",
+              "event": "DISPATCHED",
+              "lat": 52.52,
+              "lon": 13.405
+            },
+            "conflicts": []
+          },
+          {
+            "node_id": "NODE-2-CP-FRA-02",
+            "label": "Frankfurt Cargo Port",
+            "source": "Carrier GPS Telemetry",
+            "timestamp": "2026-06-17T06:30:00Z",
+            "status": "VERIFIED",
+            "details": {
+              "handler_id": "OPERATOR-DE-82",
+              "event": "PORT_CUSTOMS",
+              "lat": 50.0379,
+              "lon": 8.5622
+            },
+            "conflicts": []
+          },
+          {
+            "node_id": "NODE-3-CP-PAR-03",
+            "label": "Paris Charles de Gaulle Logistics",
+            "source": "Carrier GPS Telemetry",
+            "timestamp": "2026-06-18T14:00:00Z",
+            "status": "VERIFIED",
+            "details": {
+              "handler_id": "OPERATOR-FR-19",
+              "event": "WAREHOUSE_INSPECTION",
+              "lat": 49.0097,
+              "lon": 2.5479
+            },
+            "conflicts": []
+          },
+          {
+            "node_id": "NODE-FINAL-DEST",
+            "label": "Destination: FACILITY-BERLIN-04",
+            "source": "Receiving Warehouse System",
+            "timestamp": "2026-06-18T18:00:00Z",
+            "status": "VERIFIED",
+            "details": {
+              "facility": "FACILITY-BERLIN-04",
+              "declared_weight": "42.5 kg"
+            },
+            "conflicts": []
+          }
+        ],
+        "edges": [
+          {
+            "from_node": "NODE-0-FACTORY",
+            "to_node": "NODE-1-CP-BER-01",
+            "transit_hours": 27.5,
+            "distance_km": 0.0,
+            "implied_speed_kmh": 0.0,
+            "is_valid_transit": true,
+            "anomaly_note": null
+          },
+          {
+            "from_node": "NODE-1-CP-BER-01",
+            "to_node": "NODE-2-CP-FRA-02",
+            "transit_hours": 18.5,
+            "distance_km": 435.3,
+            "implied_speed_kmh": 23.5,
+            "is_valid_transit": true,
+            "anomaly_note": null
+          },
+          {
+            "from_node": "NODE-2-CP-FRA-02",
+            "to_node": "NODE-3-CP-PAR-03",
+            "transit_hours": 31.5,
+            "distance_km": 448.8,
+            "implied_speed_kmh": 14.2,
+            "is_valid_transit": true,
+            "anomaly_note": null
+          },
+          {
+            "from_node": "NODE-3-CP-PAR-03",
+            "to_node": "NODE-FINAL-DEST",
+            "transit_hours": 1.0,
+            "distance_km": 25.0,
+            "implied_speed_kmh": 25.0,
+            "is_valid_transit": true,
+            "anomaly_note": null
+          }
+        ]
+      },
+      "validated_at": "2026-08-22T12:26:36.442983+00:00",
+      "execution_time_ms": 11.34,
+      "override_status": "AUTO_VERIFIED",
+      "override_notes": null,
+      "override_by": null
+    }
+  },
+  {
+    "case_title": "Case 2: Counterfeit Clone with Forged PKI & Weight Mismatch",
+    "category": "COUNTERFEIT",
+    "report": {
+      "validation_id": "VAL-0F699BDE65",
+      "shipment_id": "SHIP-2026-COUNTERFEIT-88",
+      "serial_number": "SN-5420-Q",
+      "authenticity_score": 14.9,
+      "risk_level": "COUNTERFEIT_DETECTED",
+      "is_authentic": false,
+      "decision_summary": "CONFIRMED COUNTERFEIT / FORGERY. Critical cryptographic or provenance conflicts identified. Shipment rejected.",
+      "conflicting_evidence": [
+        {
+          "conflict_id": "CONF-SKU-MISMATCH",
+          "source_a": "Physical Manifest Label",
+          "source_b": "Manufacturer Master Data",
+          "field_name": "sku",
+          "observed_value": "AVION-FAKE-CLONE-99",
+          "expected_value": "AVION-CTRL-MOD4",
+          "severity": "CRITICAL",
+          "description": "Declared SKU 'AVION-FAKE-CLONE-99' clashes with registered SKU 'AVION-CTRL-MOD4'.",
+          "rule_code": "RULE_SKU_MISMATCH"
+        },
+        {
+          "conflict_id": "CONF-BATCH-MISMATCH",
+          "source_a": "Shipment Cargo Manifest",
+          "source_b": "Manufacturer Production Log",
+          "field_name": "batch_id",
+          "observed_value": "BATCH-UNKNOWN-TAMPERED",
+          "expected_value": "BATCH-2026-B88",
+          "severity": "HIGH",
+          "description": "Batch ID 'BATCH-UNKNOWN-TAMPERED' does not match original production batch 'BATCH-2026-B88'.",
+          "rule_code": "RULE_BATCH_MISMATCH"
+        },
+        {
+          "conflict_id": "CONF-DESTINATION-UNAUTHORIZED",
+          "source_a": "Waybill Destination Entry",
+          "source_b": "Manufacturer Distribution Contract",
+          "field_name": "destination_facility",
+          "observed_value": "UNKNOWN-BLACK-MARKET-WH",
+          "expected_value": "One of ['WH-EU-CENTRAL-02', 'ASSEMBLY-TOKYO-07']",
+          "severity": "MEDIUM",
+          "description": "Destination 'UNKNOWN-BLACK-MARKET-WH' is not an authorized distributor destination.",
+          "rule_code": "RULE_UNAUTHORIZED_DESTINATION"
+        },
+        {
+          "conflict_id": "CONF-CA-UNREGISTERED-HASH",
+          "source_a": "Carrier Digital Waybill Token",
+          "source_b": "Public Key Infrastructure (PKI) CA",
+          "field_name": "certificate_hash",
+          "observed_value": "CERT-FORGED-ROGUE-HASH-404",
+          "expected_value": "Cryptographically Signed CA Ledger Entry",
+          "severity": "CRITICAL",
+          "description": "Digital certificate hash 'CERT-FORGED-ROGUE-HASH-404' was forged or not issued by trusted Root CA.",
+          "rule_code": "RULE_FORGED_CERTIFICATE_HASH"
+        },
+        {
+          "conflict_id": "CONF-WEIGHT-ANOMALY",
+          "source_a": "Scale Sensor Weight Sensor",
+          "source_b": "Manufacturer Specification Blueprint",
+          "field_name": "declared_weight_kg",
+          "observed_value": "2.3 kg",
+          "expected_value": "3.2 kg (\u00b10.1 kg)",
+          "severity": "HIGH",
+          "description": "Physical weight deviates by 0.90 kg (-28.1%), indicating internal material tampering or imitation alloy.",
+          "rule_code": "RULE_WEIGHT_DEVIATION"
+        }
+      ],
+      "conflict_count": 5,
+      "rule_score": 0.0,
+      "ml_assessment": {
+        "anomaly_score": 0.5149,
+        "is_anomaly": true,
+        "fraud_probability": 0.6875,
+        "top_risk_features": [
+          {
+            "feature": "weight_deviation_pct",
+            "observed_value": -0.28,
+            "risk_driver": "Declared vs expected weight discrepancy of -28.1%"
+          },
+          {
+            "feature": "max_leg_speed_kmh",
+            "observed_value": 324.0,
+            "risk_driver": "Unrealistic transit velocity (324.0 km/h)"
+          },
+          {
+            "feature": "cert_validity_days_remaining",
+            "observed_value": 0.0,
+            "risk_driver": "Digital Certificate is expired by 0 days"
+          }
+        ],
+        "confidence": 0.869
+      },
+      "traceability_graph": {
+        "nodes": [
+          {
+            "node_id": "NODE-0-FACTORY",
+            "label": "Manufacturer Genesis",
+            "source": "Factory Assembly ERP",
+            "timestamp": "2026-07-01T10:00:00Z",
+            "status": "VERIFIED",
+            "details": {
+              "manufacturer": "MFG-AVIO-DYNAMICS",
+              "batch": "BATCH-UNKNOWN-TAMPERED",
+              "registered": true
+            },
+            "conflicts": []
+          },
+          {
+            "node_id": "NODE-1-CP-SHANG-01",
+            "label": "Shanghai Pudong Cargo Hub",
+            "source": "Carrier GPS Telemetry",
+            "timestamp": "2026-07-02T12:00:00Z",
+            "status": "VERIFIED",
+            "details": {
+              "handler_id": "UNKNOWN_AGENT_X",
+              "event": "DISPATCHED",
+              "lat": 31.1443,
+              "lon": 121.8083
+            },
+            "conflicts": []
+          },
+          {
+            "node_id": "NODE-2-CP-FRA-02",
+            "label": "Frankfurt Cargo Port",
+            "source": "Carrier GPS Telemetry",
+            "timestamp": "2026-07-03T18:00:00Z",
+            "status": "VERIFIED",
+            "details": {
+              "handler_id": "OPERATOR-DE-99",
+              "event": "PORT_CUSTOMS",
+              "lat": 50.0379,
+              "lon": 8.5622
+            },
+            "conflicts": []
+          },
+          {
+            "node_id": "NODE-FINAL-DEST",
+            "label": "Destination: UNKNOWN-BLACK-MARKET-WH",
+            "source": "Receiving Warehouse System",
+            "timestamp": "2026-07-04T12:00:00Z",
+            "status": "CONFLICT",
+            "details": {
+              "facility": "UNKNOWN-BLACK-MARKET-WH",
+              "declared_weight": "2.3 kg"
+            },
+            "conflicts": []
+          }
+        ],
+        "edges": [
+          {
+            "from_node": "NODE-0-FACTORY",
+            "to_node": "NODE-1-CP-SHANG-01",
+            "transit_hours": 26.0,
+            "distance_km": 8423.9,
+            "implied_speed_kmh": 324.0,
+            "is_valid_transit": true,
+            "anomaly_note": null
+          },
+          {
+            "from_node": "NODE-1-CP-SHANG-01",
+            "to_node": "NODE-2-CP-FRA-02",
+            "transit_hours": 30.0,
+            "distance_km": 8858.0,
+            "implied_speed_kmh": 295.3,
+            "is_valid_transit": true,
+            "anomaly_note": null
+          },
+          {
+            "from_node": "NODE-2-CP-FRA-02",
+            "to_node": "NODE-FINAL-DEST",
+            "transit_hours": 1.0,
+            "distance_km": 25.0,
+            "implied_speed_kmh": 25.0,
+            "is_valid_transit": true,
+            "anomaly_note": null
+          }
+        ]
+      },
+      "validated_at": "2026-08-22T12:26:36.454015+00:00",
+      "execution_time_ms": 10.97,
+      "override_status": "AUTO_VERIFIED",
+      "override_notes": null,
+      "override_by": null
+    }
+  },
+  {
+    "case_title": "Case 3: Impossible Travel & Clock Skew Chronology Paradox",
+    "category": "CHRONOLOGY_TAMPER",
+    "report": {
+      "validation_id": "VAL-562B72DC11",
+      "shipment_id": "SHIP-2026-PARADOX-77",
+      "serial_number": "SN-1104-Z",
+      "authenticity_score": 28.5,
+      "risk_level": "HIGH_RISK",
+      "is_authentic": false,
+      "decision_summary": "High probability counterfeit or tampered record. 2 conflicting data point(s) detected across manufacturer and carrier logs.",
+      "conflicting_evidence": [
+        {
+          "conflict_id": "CONF-SPEED-SUPERSONIC-1",
+          "source_a": "Carrier Transit Log (Singapore Changi Airfreight Centre)",
+          "source_b": "Physical Laws & Transport Velocity Envelope",
+          "field_name": "implied_velocity",
+          "observed_value": "30099.2 km/h",
+          "expected_value": "< 950.0 km/h",
+          "severity": "HIGH",
+          "description": "Calculated speed 30099.2 km/h exceeds maximum supersonic cargo threshold (950.0 km/h).",
+          "rule_code": "RULE_IMPOSSIBLE_SPEED"
+        },
+        {
+          "conflict_id": "CONF-CHRONO-INVERSION-2",
+          "source_a": "Carrier Checkpoint #3 (London Heathrow Cargo Center)",
+          "source_b": "Prior Custody Timestamp Log",
+          "field_name": "timestamp",
+          "observed_value": "2026-07-10T08:00:00Z",
+          "expected_value": "After 2026-07-10T11:30:00+00:00",
+          "severity": "CRITICAL",
+          "description": "Time paradox! Checkpoint CP-LDN-03 occurred 3.50 hours BEFORE prior node.",
+          "rule_code": "RULE_CHRONOLOGY_INVERSION"
+        }
+      ],
+      "conflict_count": 2,
+      "rule_score": 40.0,
+      "ml_assessment": {
+        "anomaly_score": 0.6274,
+        "is_anomaly": true,
+        "fraud_probability": 0.6125,
+        "top_risk_features": [
+          {
+            "feature": "max_leg_speed_kmh",
+            "observed_value": 30099.16,
+            "risk_driver": "Unrealistic transit velocity (30099.2 km/h)"
+          },
+          {
+            "feature": "timestamp_inversion_count",
+            "observed_value": 1.0,
+            "risk_driver": "1 out-of-sequence checkpoint timestamp event(s)"
+          }
+        ],
+        "confidence": 0.868
+      },
+      "traceability_graph": {
+        "nodes": [
+          {
+            "node_id": "NODE-0-FACTORY",
+            "label": "Manufacturer Genesis",
+            "source": "Factory Assembly ERP",
+            "timestamp": "2026-05-10T14:20:00Z",
+            "status": "VERIFIED",
+            "details": {
+              "manufacturer": "MFG-HYDRA-SYSTEMS",
+              "batch": "BATCH-2026-C04",
+              "registered": true
+            },
+            "conflicts": []
+          },
+          {
+            "node_id": "NODE-1-CP-CHI-01",
+            "label": "Chicago O'Hare Intermodal Hub",
+            "source": "Carrier GPS Telemetry",
+            "timestamp": "2026-07-10T11:00:00Z",
+            "status": "VERIFIED",
+            "details": {
+              "handler_id": "OPERATOR-US-11",
+              "event": "DISPATCHED",
+              "lat": 41.9742,
+              "lon": -87.9073
+            },
+            "conflicts": []
+          },
+          {
+            "node_id": "NODE-2-CP-SGP-02",
+            "label": "Singapore Changi Airfreight Centre",
+            "source": "Carrier GPS Telemetry",
+            "timestamp": "2026-07-10T11:30:00Z",
+            "status": "CONFLICT",
+            "details": {
+              "handler_id": "OPERATOR-SG-55",
+              "event": "PORT_CUSTOMS",
+              "lat": 1.3644,
+              "lon": 103.9915
+            },
+            "conflicts": [
+              "Calculated speed 30099.2 km/h exceeds maximum supersonic cargo threshold (950.0 km/h)."
+            ]
+          },
+          {
+            "node_id": "NODE-3-CP-LDN-03",
+            "label": "London Heathrow Cargo Center",
+            "source": "Carrier GPS Telemetry",
+            "timestamp": "2026-07-10T08:00:00Z",
+            "status": "CONFLICT",
+            "details": {
+              "handler_id": "OPERATOR-UK-08",
+              "event": "WAREHOUSE_INSPECTION",
+              "lat": 51.47,
+              "lon": -0.4543
+            },
+            "conflicts": [
+              "Time paradox! Checkpoint CP-LDN-03 occurred 3.50 hours BEFORE prior node."
+            ]
+          },
+          {
+            "node_id": "NODE-FINAL-DEST",
+            "label": "Destination: WH-NORTH-AMERICA-01",
+            "source": "Receiving Warehouse System",
+            "timestamp": "2026-07-10T16:00:00Z",
+            "status": "CONFLICT",
+            "details": {
+              "facility": "WH-NORTH-AMERICA-01",
+              "declared_weight": "18.75 kg"
+            },
+            "conflicts": []
+          }
+        ],
+        "edges": [
+          {
+            "from_node": "NODE-0-FACTORY",
+            "to_node": "NODE-1-CP-CHI-01",
+            "transit_hours": 1460.67,
+            "distance_km": 7090.7,
+            "implied_speed_kmh": 4.9,
+            "is_valid_transit": true,
+            "anomaly_note": null
+          },
+          {
+            "from_node": "NODE-1-CP-CHI-01",
+            "to_node": "NODE-2-CP-SGP-02",
+            "transit_hours": 0.5,
+            "distance_km": 15049.6,
+            "implied_speed_kmh": 30099.2,
+            "is_valid_transit": false,
+            "anomaly_note": "Calculated speed 30099.2 km/h exceeds maximum supersonic cargo threshold (950.0 km/h)."
+          },
+          {
+            "from_node": "NODE-2-CP-SGP-02",
+            "to_node": "NODE-3-CP-LDN-03",
+            "transit_hours": -3.5,
+            "distance_km": 10881.4,
+            "implied_speed_kmh": 0.0,
+            "is_valid_transit": false,
+            "anomaly_note": "Timestamp inversion / Negative transit duration"
+          },
+          {
+            "from_node": "NODE-3-CP-LDN-03",
+            "to_node": "NODE-FINAL-DEST",
+            "transit_hours": 1.0,
+            "distance_km": 25.0,
+            "implied_speed_kmh": 25.0,
+            "is_valid_transit": true,
+            "anomaly_note": null
+          }
+        ]
+      },
+      "validated_at": "2026-08-22T12:26:36.464906+00:00",
+      "execution_time_ms": 10.86,
+      "override_status": "AUTO_VERIFIED",
+      "override_notes": null,
+      "override_by": null
+    }
+  }
+]

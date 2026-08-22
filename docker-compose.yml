@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  traceforge83:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: traceforge-83-engine
+    ports:
+      - "8000:8000"
+    environment:
+      - PORT=8000
+    restart: unless-stopped

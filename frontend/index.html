@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TraceForge 83 — Industrial Supply Chain Authenticity & Forgery Detection</title>
+  <meta name="description" content="Real-time multi-source supply chain counterfeit & record forgery detection engine with explainable scoring, interactive trace visualization, and PKI validation.">
+  
+  <!-- Modern Typography from Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Phosphor Icons -->
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <header class="header">
+    <div class="brand-wrapper">
+      <div class="brand-icon">
+        <i class="ph-bold ph-shield-check" style="font-size: 1.5rem; color: #fff;"></i>
+      </div>
+      <div>
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+          <h1 class="brand-title">TraceForge 83</h1>
+          <span class="brand-badge">Engine v1.0</span>
+        </div>
+        <p style="font-size: 0.72rem; color: var(--text-dim);">Industrial Supply Chain Provenance & Forgery Detection System</p>
+      </div>
+    </div>
+
+    <div class="header-status">
+      <div class="status-pill">
+        <span class="pulse-dot"></span>
+        <span>Multi-Source Ledgers: <strong>Connected (4)</strong></span>
+      </div>
+      <div class="status-pill">
+        <i class="ph-bold ph-cpu" style="color: var(--accent-cyan);"></i>
+        <span>ML Anomaly Model: <strong>Active</strong></span>
+      </div>
+      <button class="btn btn-secondary" id="openAuditBtn" style="padding: 0.4rem 0.85rem; font-size: 0.8rem;">
+        <i class="ph-bold ph-clipboard-text"></i> Audit Trail
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="app-container">
+    
+    <!-- Left Column: Input Controller & Presets -->
+    <aside class="glass-panel" style="display: flex; flex-direction: column; gap: 1rem;">
+      
+      <div class="panel-header">
+        <h2 class="panel-title">
+          <i class="ph-bold ph-sliders-horizontal" style="color: var(--accent-cyan);"></i>
+          Shipment Inspector
+        </h2>
+        <span style="font-size: 0.72rem; color: var(--text-dim);">Select or Edit</span>
+      </div>
+
+      <!-- Mode Selector Tabs -->
+      <div class="tabs-nav">
+        <button class="tab-btn active" id="tabSingle">Single Shipment</button>
+        <button class="tab-btn" id="tabBatch">Batch Test (10+)</button>
+      </div>
+
+      <!-- Single Ingestion Section -->
+      <div id="singleSection">
+        <div style="margin-bottom: 0.75rem;">
+          <label class="form-label">Demonstration Test Scenarios</label>
+          <div class="preset-list" id="presetListContainer">
+            <!-- Preset items rendered by JS -->
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+            <label class="form-label" style="margin-bottom: 0;">Shipment JSON Payload</label>
+            <span style="font-size: 0.68rem; color: var(--accent-cyan); cursor: pointer;" id="formatJsonBtn">Format JSON</span>
+          </div>
+          <textarea class="code-editor" id="shipmentPayloadInput" spellcheck="false" placeholder="Enter shipment JSON payload..."></textarea>
+        </div>
+
+        <button class="btn btn-primary" id="runValidationBtn">
+          <i class="ph-bold ph-lightning"></i> Cross-Reference & Verify Authenticity
+        </button>
+      </div>
+
+      <!-- Batch Ingestion Section -->
+      <div id="batchSection" style="display: none;">
+        <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 1rem;">
+          Execute high-throughput batch validation across 10+ simulated industrial shipments with concurrent multi-source evaluation.
+        </p>
+        <div class="form-group">
+          <label class="form-label">Batch Size</label>
+          <select class="form-control" id="batchSizeSelect">
+            <option value="12">12 Shipments (Balanced 4 Authentic, 8 Flagged)</option>
+            <option value="25">25 Shipments (High Load Telemetry)</option>
+            <option value="50">50 Shipments (Stress Test)</option>
+          </select>
+        </div>
+        <button class="btn btn-primary" id="runBatchBtn">
+          <i class="ph-bold ph-stack"></i> Execute Batch Validation
+        </button>
+      </div>
+
+    </aside>
+
+    <!-- Right Column: Verification Results & Trace Path -->
+    <section class="results-container">
+
+      <!-- Loading State Overlay -->
+      <div id="loadingOverlay" style="display: none; padding: 4rem; text-align: center;" class="glass-panel">
+        <div class="pulse-dot" style="width: 24px; height: 24px; margin: 0 auto 1.5rem auto;"></div>
+        <h3 style="font-size: 1.15rem; font-weight: 600;">Cross-Referencing Multi-Source Ledgers...</h3>
+        <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 0.35rem;">
+          Querying Manufacturer ERP, Certificate Authority PKI, Carrier GPS Telemetry & Port Customs.
+        </p>
+      </div>
+
+      <!-- Single Report Dashboard Container -->
+      <div id="reportDashboard" style="display: flex; flex-direction: column; gap: 1.5rem;">
+        
+        <!-- Top Hero Score Card -->
+        <div class="glass-panel score-hero">
+          <div class="gauge-wrapper">
+            <svg class="gauge-svg" width="180" height="180" viewBox="0 0 180 180">
+              <circle class="gauge-bg" cx="90" cy="90" r="70"></circle>
+              <circle class="gauge-fill" id="gaugeCircle" cx="90" cy="90" r="70"></circle>
+            </svg>
+            <div class="gauge-center-text">
+              <span class="gauge-value" id="scoreDisplay">--</span>
+              <span class="gauge-label">Authenticity</span>
+            </div>
+          </div>
+
+          <div class="score-details-box">
+            <div class="verdict-header">
+              <h3 class="verdict-title" id="verdictTitle">Authenticity Analysis</h3>
+              <span class="badge" id="riskBadge">Awaiting Analysis</span>
+              <span id="overrideBadge" style="display: none;" class="badge badge-anomaly">OVERRIDDEN</span>
+            </div>
+            
+            <p class="verdict-desc" id="decisionSummary">
+              Select a scenario or submit a shipment payload to cross-reference multi-source cryptographic proofs and custody logs.
+            </p>
+
+            <div class="metrics-row">
+              <div class="metric-card">
+                <div class="metric-key">Serial Number</div>
+                <div class="metric-val" id="metricSerial" style="font-size: 0.9rem; font-family: monospace;">--</div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-key">Rule Proof Score</div>
+                <div class="metric-val" id="metricRuleScore">--</div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-key">ML Fraud Risk</div>
+                <div class="metric-val" id="metricMlRisk">--</div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-key">Latency</div>
+                <div class="metric-val" id="metricLatency">--</div>
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 0.75rem; margin-top: 0.5rem;">
+              <button class="btn btn-secondary" id="manualOverrideBtn" style="padding: 0.45rem 0.9rem; font-size: 0.78rem;">
+                <i class="ph-bold ph-pencil-simple-line"></i> Manual Inspector Override
+              </button>
+              <button class="btn btn-secondary" id="exportJsonReportBtn" style="padding: 0.45rem 0.9rem; font-size: 0.78rem;">
+                <i class="ph-bold ph-download-simple"></i> Download JSON Report
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Visual Traceability Graph Panel -->
+        <div class="glass-panel">
+          <div class="panel-header">
+            <h3 class="panel-title">
+              <i class="ph-bold ph-git-merge" style="color: var(--accent-cyan);"></i>
+              Visual Custody Trace Path & Checkpoint Continuity
+            </h3>
+            <span style="font-size: 0.72rem; color: var(--text-dim);" id="traceNodeCount">0 Nodes</span>
+          </div>
+
+          <div class="trace-graph-container">
+            <div class="trace-timeline" id="traceTimeline">
+              <!-- Rendered Nodes & Transit Vectors -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Conflicting Evidence Breakdown Panel -->
+        <div class="glass-panel">
+          <div class="panel-header">
+            <h3 class="panel-title">
+              <i class="ph-bold ph-warning-octagon" style="color: var(--accent-rose);"></i>
+              Conflicting Multi-Source Evidence & Anomaly Breakdown
+            </h3>
+            <span class="badge badge-counterfeit" id="conflictCountBadge">0 Conflicts</span>
+          </div>
+
+          <div class="conflict-list" id="conflictList">
+            <p style="font-size: 0.82rem; color: var(--text-muted); text-align: center; padding: 1.5rem;">
+              No conflicting records identified. All data sources agree.
+            </p>
+          </div>
+        </div>
+
+        <!-- ML Feature Drivers & Telemetry -->
+        <div class="glass-panel">
+          <div class="panel-header">
+            <h3 class="panel-title">
+              <i class="ph-bold ph-brain" style="color: var(--accent-indigo);"></i>
+              ML Anomaly & Risk Feature Drivers
+            </h3>
+            <span style="font-size: 0.72rem; color: var(--text-dim);" id="mlConfidence">Confidence: --</span>
+          </div>
+
+          <div id="mlDriversList" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0.75rem;">
+            <!-- Rendered ML Drivers -->
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Batch Results Dashboard Container (Hidden by default) -->
+      <div id="batchDashboard" style="display: none; flex-direction: column; gap: 1.5rem;">
+        
+        <div class="glass-panel">
+          <div class="panel-header">
+            <h3 class="panel-title">
+              <i class="ph-bold ph-stack" style="color: var(--accent-cyan);"></i>
+              Batch Execution Summary
+            </h3>
+            <span class="badge badge-authentic" id="batchThroughputBadge">--</span>
+          </div>
+
+          <div class="metrics-row" style="grid-template-columns: repeat(4, 1fr); margin-bottom: 1.25rem;">
+            <div class="metric-card">
+              <div class="metric-key">Total Processed</div>
+              <div class="metric-val" id="batchTotalCount">0</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-key">Authentic Approved</div>
+              <div class="metric-val" style="color: var(--accent-emerald);" id="batchAuthenticCount">0</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-key">Counterfeits Flagged</div>
+              <div class="metric-val" style="color: var(--accent-rose);" id="batchFlaggedCount">0</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-key">Avg Batch Latency</div>
+              <div class="metric-val" id="batchAvgLatency">0 ms</div>
+            </div>
+          </div>
+
+          <div style="overflow-x: auto;">
+            <table class="batch-table">
+              <thead>
+                <tr>
+                  <th>Shipment ID</th>
+                  <th>Serial Number</th>
+                  <th>Score</th>
+                  <th>Risk Tier</th>
+                  <th>Conflicts</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="batchTableBody">
+                <!-- Batch items -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+  </main>
+
+  <!-- Manual Override Modal -->
+  <div class="modal-backdrop" id="overrideModal">
+    <div class="modal-dialog">
+      <div class="panel-header">
+        <h3 class="panel-title">
+          <i class="ph-bold ph-user-gear" style="color: var(--accent-cyan);"></i>
+          Manual Inspector Authenticity Override
+        </h3>
+        <i class="ph-bold ph-x" style="cursor: pointer; font-size: 1.25rem;" id="closeOverrideModal"></i>
+      </div>
+
+      <div style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 1.25rem;">
+        Applying a manual override will update the verification status and permanently append an immutable entry to the cryptographic audit trail.
+      </div>
+
+      <form id="overrideForm">
+        <div class="form-group">
+          <label class="form-label">Override Verdict</label>
+          <select class="form-control" id="overrideStatusSelect" required>
+            <option value="APPROVED_WITH_EXCEPTION">APPROVED_WITH_EXCEPTION (Inspector Verified Physical Specimen)</option>
+            <option value="REJECTED_COUNTERFEIT">REJECTED_COUNTERFEIT (Immediate Quarantine & Seizure)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Inspector / Operator Name</label>
+          <input type="text" class="form-control" id="overrideOperatorInput" placeholder="e.g., Chief Inspector Dr. Elena Rostova" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Technical Justification & Lab Evidence</label>
+          <textarea class="form-control" id="overrideReasonInput" rows="3" placeholder="Provide detailed audit reason (e.g. secondary XRF spectroscopy completed)..." required></textarea>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 1.5rem;">
+          <button type="button" class="btn btn-secondary" id="cancelOverrideBtn">Cancel</button>
+          <button type="submit" class="btn btn-primary" style="width: auto;">Submit Official Override</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Audit Trail Drawer / Modal -->
+  <div class="modal-backdrop" id="auditModal">
+    <div class="modal-dialog" style="max-width: 680px;">
+      <div class="panel-header">
+        <h3 class="panel-title">
+          <i class="ph-bold ph-clipboard-text" style="color: var(--accent-cyan);"></i>
+          Chronological Inspector Audit Trail
+        </h3>
+        <i class="ph-bold ph-x" style="cursor: pointer; font-size: 1.25rem;" id="closeAuditModal"></i>
+      </div>
+
+      <div class="audit-list" id="auditLogsContainer">
+        <!-- Rendered Audit Trail -->
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/app.js"></script>
+</body>
+</html>
